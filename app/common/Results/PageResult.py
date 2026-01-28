@@ -1,5 +1,5 @@
 from app.common.Enum.HttpStatusCode import HttpStatusCode
-from app.common.Result.BaseResult import BaseResult
+from app.common.Results.BaseResult import BaseResult
 
 
 class PageResult(BaseResult):
@@ -14,7 +14,7 @@ class PageResult(BaseResult):
         super().__init__(body, status)
 
     @classmethod
-    def success(cls, page, statusText: str = "OK", status: int = HttpStatusCode.OK):
+    def success(cls, page, statusText: str = HttpStatusCode.OK.status_message, status: int = HttpStatusCode.OK.status_code):
         """分页成功返回，page应包含records和total属性"""
         data = {
             'list': page.get('records', page.get('items', [])),  # 兼容不同的数据结构

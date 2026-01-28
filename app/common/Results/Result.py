@@ -1,7 +1,7 @@
 from typing import Any
 
 from app.common.Enum.HttpStatusCode import HttpStatusCode
-from app.common.Result.BaseResult import BaseResult
+from app.common.Results.BaseResult import BaseResult
 
 
 class Result(BaseResult):

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from marshmallow import ValidationError
 
-from app.common.Result import Result, PageResult
+from app.common.Results import Result, PageResult
 from app.middleware.auth import token_required
 from app.schemas import SysPermissionFormSchema, SysPermissionPageQuerySchema
 from app.services.sys_permission_service import SysPermissionService

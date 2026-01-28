@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from marshmallow import ValidationError
 
-from app.common.Result import Result
+from app.common.Results import Result
 from app.middleware.auth import token_required
 from app.schemas import LoginSchema, RegisterSchema
 from app.services.auth_service import AuthService

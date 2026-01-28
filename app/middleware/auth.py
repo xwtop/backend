@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request, g
 
 from app.common.utils.jwt_utils import decode_token
-from app.common.Result import Result
+from app.common.Results import Result
 
 
 def token_required(f):

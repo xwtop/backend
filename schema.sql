@@ -79,3 +79,20 @@ CREATE TABLE IF NOT EXISTS sys_role_permission
     update_time   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted       TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='角色权限关联表';
+
+-- 内容分类表
+CREATE TABLE IF NOT EXISTS content_category
+(
+    id           VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    parent_id    VARCHAR(64)  DEFAULT NULL COMMENT '父分类ID（NULL表示顶级分类）',
+    name         VARCHAR(64)  NOT NULL COMMENT '分类名称',
+    code         VARCHAR(64)  NOT NULL UNIQUE COMMENT '分类编码（唯一标识）',
+    sort         INT      DEFAULT 0 COMMENT '排序（数字越小越靠前）',
+    status       TINYINT  DEFAULT 1 COMMENT '状态（0禁用，1启用）',
+    remark       VARCHAR(255) COMMENT '备注',
+    create_by    VARCHAR(64)   DEFAULT 0 COMMENT '创建人',
+    create_time  DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_by    VARCHAR(64)   DEFAULT 0 COMMENT '更新人',
+    update_time  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted      TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='内容分类表';

@@ -4,6 +4,7 @@ from app.models.sys_role import SysRole
 from app.models.sys_role_permission import SysRolePermission
 from app.models.sys_user import SysUser
 from app.models.sys_user_role import SysUserRole
+from app.models.content_category import ContentCategory
 
 __all__ = [
     'BaseModel',
@@ -11,5 +12,6 @@ __all__ = [
     'SysRole',
     'SysPermission',
     'SysUserRole',
-    'SysRolePermission'
+    'SysRolePermission',
+    'ContentCategory'
 ]
