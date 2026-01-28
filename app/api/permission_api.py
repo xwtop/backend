@@ -1,9 +1,10 @@
-from flask import Blueprint, request, g
+from flask import Blueprint, request
+from marshmallow import ValidationError
+
+from app.common.Result import Result, PageResult
+from app.middleware.auth import token_required
 from app.schemas import SysPermissionFormSchema, SysPermissionPageQuerySchema
 from app.services.sys_permission_service import SysPermissionService
-from app.middleware.auth import token_required
-from marshmallow import ValidationError
-from app.common import Result, PageResult
 
 permission_bp = Blueprint('permission', __name__)
 

@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 
-def configure_logging(app):
+def init_logging(app):
     """
     配置应用程序日志
     """

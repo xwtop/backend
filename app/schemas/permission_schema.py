@@ -21,12 +21,3 @@ class SysPermissionPageQuerySchema(Schema):
     status = fields.Integer(allow_none=True)
 
 
-class SysPermissionVOSchema(Schema):
-    id = fields.Str()
-    code = fields.Str()
-    name = fields.Str()
-    resource = fields.Str(allow_none=True)
-    action = fields.Str(allow_none=True)
-    type = fields.Str()
-    remark = fields.Str(allow_none=True)
-    status = fields.Integer()

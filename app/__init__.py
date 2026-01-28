@@ -1,7 +1,7 @@
 from flask import Flask
 
 from app.blueprints import register_blueprints
-from app.config.config import Config
+from app.common.config import Config
 from app.extensions import init_extensions
 
 

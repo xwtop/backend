@@ -18,12 +18,3 @@ class SysRolePageQuerySchema(Schema):
     name = fields.Str(allow_none=True)
     status = fields.Integer(allow_none=True)
 
-
-class SysRoleVOSchema(Schema):
-    id = fields.Str()
-    code = fields.Str()
-    name = fields.Str()
-    sort = fields.Integer(allow_none=True)
-    remark = fields.Str(allow_none=True)
-    status = fields.Integer()
-    permissions = fields.List(fields.Nested('SysPermissionVOSchema'), allow_none=True)

@@ -1,9 +1,5 @@
-from app.models import SysUser, SysRole, SysUserRole
+from app.models import SysUser, SysUserRole
 from app.extensions import db
-from sqlalchemy import or_
-from flask import current_app
-import secrets
-import string
 
 
 class SysUserService:
@@ -29,7 +25,7 @@ class SysUserService:
     
             return None, '密码不能为空'
         
-        from app.utils.password_utils import hash_password
+        from app.common.utils.password_utils import hash_password
         hashed_password = hash_password(password)
         
         user = SysUser(
@@ -90,7 +86,7 @@ class SysUserService:
             user.email = form_data['email']
         
         if form_data.get('password'):
-            from app.utils.password_utils import hash_password
+            from app.common.utils.password_utils import hash_password
             user.password = hash_password(form_data['password'])
         
         if 'real_name' in form_data:
@@ -237,7 +233,7 @@ class SysUserService:
         if not new_password:
             return False, '密码不能为空'
         
-        from app.utils.password_utils import hash_password
+        from app.common.utils.password_utils import hash_password
         user.password = hash_password(new_password)
         db.session.commit()
         

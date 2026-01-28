@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from app.extensions import db
-from app.utils.snowflake import generate_snowflake_id
+from app.common.utils.snowflake import generate_snowflake_id
 
 
 class BaseModel(db.Model):

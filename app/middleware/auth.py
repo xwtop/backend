@@ -1,9 +1,9 @@
 from functools import wraps
 
-from flask import request, jsonify, g
+from flask import request, g
 
-from app.utils.jwt_utils import decode_token
-from app.common import Result
+from app.common.utils.jwt_utils import decode_token
+from app.common.Result import Result
 
 
 def token_required(f):
@@ -16,11 +16,11 @@ def token_required(f):
             token = auth_header.split(' ')[1]
         
         if not token:
-            return Result.unauthorized('未提供认证令牌').to_json()
+            return Result.unauthorized('未提供认证令牌')
         
         payload = decode_token(token)
         if not payload:
-            return Result.unauthorized('认证令牌无效或已过期').to_json()
+            return Result.unauthorized('认证令牌无效或已过期')
         
         g.user_id = payload.get('user_id')
         g.real_name = payload.get('real_name')
@@ -40,7 +40,7 @@ def permission_required(permission_code):
             
             user = db.session.query(SysUser).filter_by(id=g.user_id, deleted=0).first()
             if not user:
-                return Result.forbidden('用户不存在').to_json()
+                return Result.forbidden('用户不存在')
             
             has_permission = False
             for role in user.roles:
@@ -53,7 +53,7 @@ def permission_required(permission_code):
                     break
             
             if not has_permission:
-                return Result.forbidden('权限不足').to_json()
+                return Result.forbidden('权限不足')
             
             return f(*args, **kwargs)
         

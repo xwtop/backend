@@ -1,7 +1,7 @@
 from app.extensions import db
 from app.models import SysUser
-from app.utils.jwt_utils import generate_token
-from app.utils.password_utils import hash_password, verify_password
+from app.common.utils.jwt_utils import generate_token
+from app.common.utils.password_utils import hash_password, verify_password
 
 
 class AuthService:

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from marshmallow import ValidationError
 
-from app.common import Result, PageResult
+from app.common.Result import Result, PageResult
 from app.middleware.auth import token_required
 from app.schemas import SysUserFormSchema, SysUserPageQuerySchema
 from app.services.sys_user_service import SysUserService

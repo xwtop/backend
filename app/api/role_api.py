@@ -1,11 +1,10 @@
 from flask import Blueprint, request
 from marshmallow import ValidationError
 
-from app.common import PageResult
+from app.common.Result import Result, PageResult
 from app.middleware.auth import token_required
 from app.schemas import SysRoleFormSchema, SysRolePageQuerySchema
 from app.services.sys_role_service import SysRoleService
-from app.utils import Result
 
 role_bp = Blueprint('role', __name__)
 

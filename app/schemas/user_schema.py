@@ -23,16 +23,3 @@ class SysUserPageQuerySchema(Schema):
     email = fields.Email(allow_none=True)
     status = fields.Integer(allow_none=True)
 
-
-class SysUserVOSchema(Schema):
-    id = fields.Str()
-    username = fields.Str()
-    real_name = fields.Str(data_key='realName')
-    email = fields.Email()
-    phone = fields.Str(allow_none=True)
-    avatar = fields.Str(allow_none=True)
-    gender = fields.Integer(allow_none=True)
-    birthday = fields.Date(allow_none=True)
-    introduction = fields.Str(allow_none=True)
-    status = fields.Integer()
-    roles = fields.List(fields.Nested('SysRoleVOSchema'), allow_none=True)
