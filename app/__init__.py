@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 
 from app.blueprints import register_blueprints
@@ -6,7 +7,7 @@ from app.extensions import init_extensions
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../uploads', static_url_path='/uploads')
     app.config.from_object(config_class)
 
     init_extensions(app)

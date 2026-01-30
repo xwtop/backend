@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields, validate
+from app.schemas.base_page_query import BasePageQuery
 
 
 class SysPermissionFormSchema(Schema):
@@ -12,9 +13,7 @@ class SysPermissionFormSchema(Schema):
     status = fields.Integer(allow_none=True)
 
 
-class SysPermissionPageQuerySchema(Schema):
-    page = fields.Integer(missing=1, validate=validate.Range(min=1, max=10000))
-    page_size = fields.Integer(missing=10, validate=validate.Range(min=1, max=100))
+class SysPermissionPageQuerySchema(BasePageQuery):
     code = fields.Str(allow_none=True)
     name = fields.Str(allow_none=True)
     type = fields.Str(allow_none=True)

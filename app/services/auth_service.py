@@ -25,6 +25,7 @@ class AuthService:
 
         return {
             'accessToken': token,
+            'userId': user.id,
             'realName': user.real_name,
             'role': [role.code for role in roles]
         }, None

@@ -1,4 +1,6 @@
 from marshmallow import Schema, fields, validate
+from app.schemas.base_page_query import BasePageQuery
+
 
 class SysUserFormSchema(Schema):
     id = fields.Str(allow_none=True)
@@ -15,11 +17,8 @@ class SysUserFormSchema(Schema):
     status = fields.Integer(allow_none=True)
 
 
-class SysUserPageQuerySchema(Schema):
-    page = fields.Integer(missing=1, validate=validate.Range(min=1, max=10000))
-    page_size = fields.Integer(missing=10, validate=validate.Range(min=1, max=100))
+class SysUserPageQuerySchema(BasePageQuery):
     username = fields.Str(allow_none=True)
     real_name = fields.Str(allow_none=True)
     email = fields.Email(allow_none=True)
     status = fields.Integer(allow_none=True)
-

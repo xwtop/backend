@@ -9,15 +9,15 @@ CREATE TABLE IF NOT EXISTS sys_user
     email        VARCHAR(128) COMMENT '邮箱',
     phone        VARCHAR(32) COMMENT '手机号',
     avatar       VARCHAR(255) COMMENT '头像URL',
-    gender       TINYINT  DEFAULT 0 COMMENT '性别（0-未知，1-男，2-女）',
+    gender       TINYINT     DEFAULT 0 COMMENT '性别（0-未知，1-男，2-女）',
     birthday     DATE COMMENT '生日',
     introduction TEXT COMMENT '个人简介',
-    status       TINYINT  DEFAULT 1 COMMENT '状态（0禁用，1启用）',
-    create_by    VARCHAR(64)   DEFAULT 0,
-    create_time  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_by    VARCHAR(64)   DEFAULT 0,
-    update_time  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted      TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    status       TINYINT     DEFAULT 1 COMMENT '状态（0禁用，1启用）',
+    create_by    VARCHAR(64) DEFAULT 0,
+    create_time  DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    update_by    VARCHAR(64) DEFAULT 0,
+    update_time  DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted      TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='系统用户表';
 
 -- 角色表
@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS sys_role
     id          VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
     code        VARCHAR(64) NOT NULL UNIQUE COMMENT '角色编码',
     name        VARCHAR(64) NOT NULL COMMENT '角色名称',
-    sort        INT      DEFAULT 0 COMMENT '显示顺序',
+    sort        INT         DEFAULT 0 COMMENT '显示顺序',
     remark      VARCHAR(255) COMMENT '备注',
-    status      INT      DEFAULT 1 COMMENT '状态（0禁用，1启用）',
-    create_by   VARCHAR(64)   DEFAULT 0,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_by   VARCHAR(64)   DEFAULT 0,
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted     TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    status      INT         DEFAULT 1 COMMENT '状态（0禁用，1启用）',
+    create_by   VARCHAR(64) DEFAULT 0,
+    create_time DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    update_by   VARCHAR(64) DEFAULT 0,
+    update_time DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted     TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='角色表';
 
 -- 权限表
@@ -46,12 +46,12 @@ CREATE TABLE IF NOT EXISTS sys_permission
     action      VARCHAR(32) COMMENT '操作',
     type        VARCHAR(32) COMMENT '类型（API/MENU/BUTTON）',
     remark      VARCHAR(255) COMMENT '备注',
-    status      INT      DEFAULT 1 COMMENT '状态（0禁用，1启用）',
-    create_by   VARCHAR(64)   DEFAULT 0,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_by   VARCHAR(64)   DEFAULT 0,
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted     TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    status      INT         DEFAULT 1 COMMENT '状态（0禁用，1启用）',
+    create_by   VARCHAR(64) DEFAULT 0,
+    create_time DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    update_by   VARCHAR(64) DEFAULT 0,
+    update_time DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted     TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='权限表';
 
 -- 用户角色关联表
@@ -60,11 +60,11 @@ CREATE TABLE IF NOT EXISTS sys_user_role
     id          VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
     user_id     VARCHAR(64) NOT NULL COMMENT '用户ID',
     role_id     VARCHAR(64) NOT NULL COMMENT '角色ID',
-    create_by   VARCHAR(64)   DEFAULT 0,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_by   VARCHAR(64)   DEFAULT 0,
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted     TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    create_by   VARCHAR(64) DEFAULT 0,
+    create_time DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    update_by   VARCHAR(64) DEFAULT 0,
+    update_time DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted     TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='用户角色关联表';
 
 -- 角色权限关联表
@@ -73,26 +73,82 @@ CREATE TABLE IF NOT EXISTS sys_role_permission
     id            VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
     role_id       VARCHAR(64) NOT NULL COMMENT '角色ID',
     permission_id VARCHAR(64) NOT NULL COMMENT '权限ID',
-    create_by     VARCHAR(64)   DEFAULT 0,
-    create_time   DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_by     VARCHAR(64)   DEFAULT 0,
-    update_time   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted       TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    create_by     VARCHAR(64) DEFAULT 0,
+    create_time   DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    update_by     VARCHAR(64) DEFAULT 0,
+    update_time   DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted       TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='角色权限关联表';
 
 -- 内容分类表
 CREATE TABLE IF NOT EXISTS content_category
 (
-    id           VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
-    parent_id    VARCHAR(64)  DEFAULT NULL COMMENT '父分类ID（NULL表示顶级分类）',
-    name         VARCHAR(64)  NOT NULL COMMENT '分类名称',
-    code         VARCHAR(64)  NOT NULL UNIQUE COMMENT '分类编码（唯一标识）',
-    sort         INT      DEFAULT 0 COMMENT '排序（数字越小越靠前）',
-    status       TINYINT  DEFAULT 1 COMMENT '状态（0禁用，1启用）',
-    remark       VARCHAR(255) COMMENT '备注',
-    create_by    VARCHAR(64)   DEFAULT 0 COMMENT '创建人',
-    create_time  DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_by    VARCHAR(64)   DEFAULT 0 COMMENT '更新人',
-    update_time  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    deleted      TINYINT  DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
+    id          VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    parent_id   VARCHAR(64) DEFAULT NULL COMMENT '父分类ID（NULL表示顶级分类）',
+    name        VARCHAR(64) NOT NULL COMMENT '分类名称',
+    code        VARCHAR(64) NOT NULL UNIQUE COMMENT '分类编码（唯一标识）',
+    sort        INT         DEFAULT 0 COMMENT '排序（数字越小越靠前）',
+    status      TINYINT     DEFAULT 1 COMMENT '状态（0禁用，1启用）',
+    remark      VARCHAR(255) COMMENT '备注',
+    create_by   VARCHAR(64) DEFAULT 0 COMMENT '创建人',
+    create_time DATETIME    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_by   VARCHAR(64) DEFAULT 0 COMMENT '更新人',
+    update_time DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted     TINYINT     DEFAULT 0 COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='内容分类表';
+
+-- 文章表
+CREATE TABLE IF NOT EXISTS `content_article`
+(
+    `id`            VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    `category_id`   VARCHAR(64)                                                    NOT NULL COMMENT '分类ID',
+    `title`         VARCHAR(255)                                                   NOT NULL COMMENT '文章标题',
+    `sub_title`     VARCHAR(255)                                                   NULL COMMENT '文章副标题',
+    `content`       TEXT                                                           NOT NULL COMMENT '文章内容',
+    `cover_image`   VARCHAR(500)                                                   NULL COMMENT '封面图片URL',
+    `author_id`     VARCHAR(64)                                                    NOT NULL COMMENT '作者ID（关联用户表）',
+    `author_name`   VARCHAR(64)                                                    NULL COMMENT '作者姓名（冗余字段，方便查询）',
+    `view_count`    INT      DEFAULT 0                                             NOT NULL COMMENT '浏览次数',
+    `like_count`    INT      DEFAULT 0                                             NOT NULL COMMENT '点赞次数（冗余字段，方便查询）',
+    `comment_count` INT      DEFAULT 0                                             NOT NULL COMMENT '评论次数（冗余字段，方便查询）',
+    `is_top`        TINYINT  DEFAULT 0                                             NOT NULL COMMENT '是否置顶（0否，1是）',
+    `is_hot`        TINYINT  DEFAULT 0                                             NOT NULL COMMENT '是否热门（0否，1是）',
+    `status`        TINYINT  DEFAULT 1                                             NOT NULL COMMENT '状态（0草稿，1已发布，2已下架）',
+    `publish_time`  DATETIME                                                       NULL COMMENT '发布时间',
+    `create_by`     VARCHAR(64)                                                    NULL COMMENT '创建人',
+    `create_time`   DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '创建时间',
+    `update_by`     VARCHAR(64)                                                    NULL COMMENT '更新人',
+    `update_time`   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`       TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='文章表';
+
+-- 文章点赞表
+CREATE TABLE IF NOT EXISTS `content_article_like`
+(
+    `id`          VARCHAR(64) primary key COMMENT '主键ID',
+    `article_id`  VARCHAR(64)                                                    NOT NULL COMMENT '文章ID',
+    `user_id`     VARCHAR(64)                                                    NOT NULL COMMENT '用户ID',
+    `create_by`   VARCHAR(64)                                                    NULL COMMENT '创建人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '创建时间',
+    `update_by`   VARCHAR(64)                                                    NULL COMMENT '更新人',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`     TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='文章点赞表';
+
+-- 文章评论表
+CREATE TABLE IF NOT EXISTS `content_article_comment`
+(
+    `id`          VARCHAR(64) primary key COMMENT '主键ID',
+    `article_id`  VARCHAR(64)                                                    NOT NULL COMMENT '文章ID',
+    `parent_id`   VARCHAR(64)                                                    NULL COMMENT '父评论ID（NULL表示一级评论）',
+    `user_id`     VARCHAR(64)                                                    NOT NULL COMMENT '评论用户ID',
+    `user_name`   VARCHAR(64)                                                    NULL COMMENT '评论用户姓名（冗余字段）',
+    `user_avatar` VARCHAR(500)                                                   NULL COMMENT '评论用户头像（冗余字段）',
+    `content`     TEXT                                                           NOT NULL COMMENT '评论内容',
+    `create_by`   VARCHAR(64)                                                    NULL COMMENT '创建人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '创建时间',
+    `update_by`   VARCHAR(64)                                                    NULL COMMENT '更新人',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`     TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='文章评论表';
+

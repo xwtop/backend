@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields, validate
+from app.schemas.base_page_query import BasePageQuery
 
 
 class SysRoleFormSchema(Schema):
@@ -11,9 +12,7 @@ class SysRoleFormSchema(Schema):
     permission_ids = fields.List(fields.Str(), allow_none=True)
 
 
-class SysRolePageQuerySchema(Schema):
-    page = fields.Integer(missing=1, validate=validate.Range(min=1, max=10000))
-    page_size = fields.Integer(missing=10, validate=validate.Range(min=1, max=100))
+class SysRolePageQuerySchema(BasePageQuery):
     code = fields.Str(allow_none=True)
     name = fields.Str(allow_none=True)
     status = fields.Integer(allow_none=True)
