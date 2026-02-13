@@ -14,6 +14,12 @@ class RegisterSchema(Schema):
     email_code = fields.Str(required=True, error_messages={'required': '邮箱验证码不能为空'})
 
 
+class ChangePasswordSchema(Schema):
+    old_password = fields.Str(required=True, error_messages={'required': '原密码不能为空'}, data_key='oldPassword')
+    new_password = fields.Str(required=True, error_messages={'required': '新密码不能为空'}, data_key='newPassword')
+    confirm_password = fields.Str(required=True, error_messages={'required': '确认密码不能为空'}, data_key='confirmPassword')
+
+
 class TokenVOSchema(Schema):
     access_token = fields.Str(data_key='accessToken')
     real_name = fields.Str(data_key='realName')

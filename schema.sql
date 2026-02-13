@@ -152,3 +152,50 @@ CREATE TABLE IF NOT EXISTS `content_article_comment`
     `deleted`     TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
 ) COMMENT ='文章评论表';
 
+-- 订阅表
+CREATE TABLE IF NOT EXISTS `content_category_subscription`
+(
+    `id`          VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    `user_id`     VARCHAR(64)                                                    NOT NULL COMMENT '用户ID',
+    `category_id` VARCHAR(64)                                                    NOT NULL COMMENT '分类ID',
+    `create_by`   VARCHAR(64)                                                    NULL COMMENT '创建人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '创建时间',
+    `update_by`   VARCHAR(64)                                                    NULL COMMENT '更新人',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`     TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='分类订阅表';
+
+-- 通知表
+CREATE TABLE IF NOT EXISTS notification
+(
+    id            VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    user_id       VARCHAR(64)                                                    NOT NULL COMMENT '用户ID',
+    title         VARCHAR(255)                                                   NOT NULL COMMENT '通知标题',
+    type          varchar(32)                                                    NOT NULL comment '通知类型（article_new-新文章，comment_reply-评论回复）',
+    content       TEXT COMMENT '通知内容',
+    related_id    VARCHAR(64) COMMENT '关联文章ID',
+    is_read       int      default 0                                             NOT NULL comment '是否已读（0未读，1已读）',
+    `create_by`   VARCHAR(64)                                                    NULL COMMENT '创建人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '创建时间',
+    `update_by`   VARCHAR(64)                                                    NULL COMMENT '更新人',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`     TINYINT  DEFAULT 0                                             NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='订阅通知表';
+
+
+CREATE TABLE IF NOT EXISTS `notification_reminders`
+(
+    `id`          VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    `title`       VARCHAR(255) NOT NULL COMMENT '提醒标题',
+    `content`     TEXT         NOT NULL COMMENT '提醒内容',
+    `remind_time` DATETIME     NOT NULL COMMENT '提醒时间',
+    `repeat`      TINYINT      NOT NULL DEFAULT 0 COMMENT '重复方式（0-一次性，1-每天，2-每周，3-每月）',
+    `status`      TINYINT      NOT NULL DEFAULT 1 COMMENT '状态（1-启用，0-禁用）',
+    `target_type` TINYINT      NOT NULL DEFAULT 0 COMMENT '目标类型（0-全员，1-指定角色）',
+    `target_role` VARCHAR(50)  NULL COMMENT '目标角色代码（当target_type为1时必填）',
+    `create_by`   VARCHAR(64)  NULL COMMENT '创建人',
+    `create_time` DATETIME              DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    `update_by`   VARCHAR(64)  NULL COMMENT '更新人',
+    `update_time` DATETIME              DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '更新时间',
+    `deleted`     TINYINT               DEFAULT 0 NOT NULL COMMENT '逻辑删除（0未删除，1已删除）'
+) COMMENT ='定时提醒表';

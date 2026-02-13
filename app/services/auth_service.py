@@ -11,13 +11,13 @@ class AuthService:
         user = db.session.query(SysUser).filter_by(username=username, deleted=0).first()
 
         if not user:
-            return None, '用户不存在'
+            return None, '账号或密码错误'
 
         if user.status == 0:
-            return None, '用户已被禁用'
+            return None, '账号已被禁用'
 
         if not verify_password(password, user.password):
-            return None, '密码错误'
+            return None, '账号或密码错误'
 
         roles = user.roles.all()
 
@@ -60,4 +60,21 @@ class AuthService:
 
         # TODO: 在实际部署中，可能需要实现token黑名单功能
 
+        return True, None
+
+    @staticmethod
+    def change_password(user_id, old_password, new_password):
+        # 修改密码：验证原密码并更新为新密码
+        user = db.session.query(SysUser).filter_by(id=user_id, deleted=0).first()
+        
+        if not user:
+            return False, '用户不存在'
+        
+        if not verify_password(old_password, user.password):
+            return False, '原密码错误'
+        
+        hashed_password = hash_password(new_password)
+        user.password = hashed_password
+        db.session.commit()
+        
         return True, None

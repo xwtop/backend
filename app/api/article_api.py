@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 
 from app.common.Results import Result, PageResult
 from app.middleware.auth import token_required
-from app.schemas import ArticleFormSchema, ArticlePageQuerySchema, ArticlePublishSchema
+from app.schemas import ArticleFormSchema, ArticlePageQuerySchema
 from app.services.article_service import ArticleService
 
 article_bp = Blueprint('article', __name__)
@@ -154,4 +154,35 @@ def get_top_articles():
     if error:
         return Result.server_error(error)
 
+    return Result.success(result)
+
+
+@article_bp.route('/rank', methods=['GET'])
+def get_rank_articles():
+    time_range = request.args.get('time_range', 'daily', type=str)
+    limit = request.args.get('limit', 10, type=int)
+    result, error = ArticleService.get_rank_articles(time_range, limit)
+
+    if error:
+        return Result.server_error(error)
+
+    return Result.success(result)
+
+
+@article_bp.route('/search', methods=['POST'])
+@token_required
+def search_articles():
+    keyword = request.json.get('keyword', '').strip()
+    search_type = request.json.get('search_type', 'all')
+    page = request.json.get('page', 1)
+    page_size = request.json.get('page_size', 10)
+    
+    if not keyword:
+        return Result.bad_request('搜索关键词不能为空')
+    
+    result, error = ArticleService.search_articles(keyword, search_type, page, page_size)
+    
+    if error:
+        return Result.server_error(error)
+    
     return Result.success(result)

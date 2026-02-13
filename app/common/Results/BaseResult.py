@@ -1,13 +1,16 @@
 import json
 from datetime import datetime, date
+from decimal import Decimal
 
 from flask import Response
 
 
 def json_serializer(obj):
-    """自定义JSON序列化器，处理datetime和date对象"""
+    """自定义JSON序列化器，处理datetime、date和decimal对象"""
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
+    if isinstance(obj, Decimal):
+        return float(obj)
     raise TypeError(f'Type {type(obj)} not serializable')
 
 

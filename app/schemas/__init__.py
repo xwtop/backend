@@ -6,6 +6,7 @@ from app.schemas.category_schema import *
 from app.schemas.article_schema import *
 from app.schemas.article_like_schema import *
 from app.schemas.article_comment_schema import *
+from app.schemas.subscription_schema import *
 
 __all__ = [
     'LoginSchema',
@@ -25,4 +26,6 @@ __all__ = [
     'ArticleLikeFormSchema',
     'ArticleCommentFormSchema',
     'ArticleCommentPageQuerySchema',
+    'SubscriptionSchema',
+    'NotificationQuerySchema',
 ]

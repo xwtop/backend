@@ -7,6 +7,9 @@ from app.models.content_category import ContentCategory
 from app.models.content_article import ContentArticle
 from app.models.content_article_like import ContentArticleLike
 from app.models.content_article_comment import ContentArticleComment
+from app.models.content_category_subscription import ContentCategorySubscription
+from app.models.notification import Notification
+from app.models.notification_reminder import NotificationReminder
 
 __all__ = [
     'SysUser',
@@ -17,5 +20,8 @@ __all__ = [
     'ContentCategory',
     'ContentArticle',
     'ContentArticleLike',
-    'ContentArticleComment'
+    'ContentArticleComment',
+    'ContentCategorySubscription',
+    'Notification',
+    'NotificationReminder'
 ]

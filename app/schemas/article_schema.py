@@ -1,4 +1,5 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
+
 from app.schemas.base_page_query import BasePageQuery
 
 
@@ -24,6 +25,7 @@ class ArticlePageQuerySchema(BasePageQuery):
     status = fields.Integer(allow_none=True)
     is_top = fields.Integer(allow_none=True)
     is_hot = fields.Integer(allow_none=True)
+    min_view_count = fields.Integer(allow_none=True)
 
 
 class ArticlePublishSchema(Schema):

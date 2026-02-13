@@ -1,9 +1,9 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from marshmallow import ValidationError
 
 from app.common.Results import Result
 from app.middleware.auth import token_required
-from app.schemas import LoginSchema, RegisterSchema
+from app.schemas import LoginSchema, RegisterSchema, ChangePasswordSchema
 from app.services.auth_service import AuthService
 
 auth_bp = Blueprint('auth', __name__)
@@ -65,3 +65,24 @@ def logout():
         return Result.server_error(error).to_json()
 
     return Result.success()
+
+
+@auth_bp.route('/changePassword', methods=['POST'])
+@token_required
+def change_password():
+    # 修改密码接口：用户修改自己的密码
+    try:
+        data = ChangePasswordSchema().load(request.json)
+    except ValidationError as err:
+        return Result.bad_request(str(err.messages))
+
+    # 验证新密码和确认密码是否一致
+    if data['new_password'] != data['confirm_password']:
+        return Result.bad_request('新密码和确认密码不一致')
+
+    result, error = AuthService.change_password(g.user_id, data['old_password'], data['new_password'])
+
+    if error:
+        return Result.bad_request(error)
+
+    return Result.success(True)
