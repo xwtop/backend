@@ -30,7 +30,7 @@ def save_sys_user():
 
 @user_bp.route('/<string:user_id>/update', methods=['PUT'])
 @token_required
-@permission_required('system:update')
+@permission_required('normal:update', 'system:update')
 def update_sys_user(user_id):
     # 更新用户接口：修改指定用户信息
 

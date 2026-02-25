@@ -31,7 +31,7 @@ def handle_connect():
         join_room(room)
         
         print(f'[WebSocket] 用户 {user_id} 连接成功，加入房间 {room}')
-        emit('connected', {'userId': user_id, 'message': '连接成功'}, room=room)
+        emit('connected', {'userId': user_id, 'message': '连接成功'})
     except Exception as e:
         print(f'[WebSocket] 连接失败：{e}')
         disconnect()
