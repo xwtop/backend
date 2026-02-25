@@ -31,7 +31,7 @@ def token_required(f):
     return decorated_function
 
 
-def permission_required(permission_code):
+def permission_required(*permission_codes):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -46,7 +46,7 @@ def permission_required(permission_code):
             for role in user.roles:
                 if role.status == 1:
                     for permission in role.permissions:
-                        if permission.code == permission_code and permission.status == 1:
+                        if permission.code in permission_codes and permission.status == 1:
                             has_permission = True
                             break
                 if has_permission:

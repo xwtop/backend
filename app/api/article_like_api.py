@@ -45,6 +45,7 @@ def check_like():
 
 
 @article_like_bp.route('/article/<string:article_id>', methods=['GET'])
+@token_required
 def get_article_likes(article_id):
     page = request.args.get('page', 1, type=int)
     page_size = request.args.get('pageSize', 10, type=int)

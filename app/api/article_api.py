@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from marshmallow import ValidationError
 
 from app.common.Results import Result, PageResult
-from app.middleware.auth import token_required
+from app.middleware.auth import token_required, permission_required
 from app.schemas import ArticleFormSchema, ArticlePageQuerySchema
 from app.services.article_service import ArticleService
 
@@ -11,6 +11,7 @@ article_bp = Blueprint('article', __name__)
 
 @article_bp.route('/add', methods=['POST'])
 @token_required
+@permission_required('normal:add', 'system:add')
 def save_article():
     try:
         data = ArticleFormSchema().load(request.json)
@@ -27,6 +28,7 @@ def save_article():
 
 @article_bp.route('/<string:article_id>/update', methods=['PUT'])
 @token_required
+@permission_required('normal:update', 'system:update')
 def update_article(article_id):
     try:
         data = ArticleFormSchema().load(request.json)
@@ -43,6 +45,7 @@ def update_article(article_id):
 
 @article_bp.route('/<path:ids>/delete', methods=['DELETE'])
 @token_required
+@permission_required('normal:delete', 'system:delete')
 def delete_article(ids):
     result, error = ArticleService.delete_article(ids)
 
@@ -54,6 +57,7 @@ def delete_article(ids):
 
 @article_bp.route('/<string:article_id>/form', methods=['GET'])
 @token_required
+@permission_required('normal:get', 'system:get')
 def get_article_form(article_id):
     result, error = ArticleService.get_article_vo(article_id)
 
@@ -65,6 +69,7 @@ def get_article_form(article_id):
 
 @article_bp.route('/page', methods=['POST'])
 @token_required
+@permission_required('normal:page', 'system:page')
 def page_article():
     try:
         data = ArticlePageQuerySchema().load(request.json)
@@ -81,6 +86,7 @@ def page_article():
 
 @article_bp.route('/<string:article_id>/publish', methods=['POST'])
 @token_required
+@permission_required('system:publish')
 def publish_article(article_id):
     result, error = ArticleService.publish_article(article_id)
 
@@ -92,6 +98,7 @@ def publish_article(article_id):
 
 @article_bp.route('/<string:article_id>/unpublish', methods=['POST'])
 @token_required
+@permission_required('system:unpublish')
 def unpublish_article(article_id):
     result, error = ArticleService.unpublish_article(article_id)
 
@@ -176,13 +183,13 @@ def search_articles():
     search_type = request.json.get('search_type', 'all')
     page = request.json.get('page', 1)
     page_size = request.json.get('page_size', 10)
-    
+
     if not keyword:
         return Result.bad_request('搜索关键词不能为空')
-    
+
     result, error = ArticleService.search_articles(keyword, search_type, page, page_size)
-    
+
     if error:
         return Result.server_error(error)
-    
+
     return Result.success(result)

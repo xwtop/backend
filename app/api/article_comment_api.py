@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from marshmallow import ValidationError
 
 from app.common.Results import Result, PageResult
-from app.middleware.auth import token_required
+from app.middleware.auth import token_required, permission_required
 from app.schemas import ArticleCommentFormSchema, ArticleCommentPageQuerySchema
 from app.services.article_comment_service import ArticleCommentService
 
@@ -11,6 +11,7 @@ article_comment_bp = Blueprint('articleComment', __name__)
 
 @article_comment_bp.route('/add', methods=['POST'])
 @token_required
+@permission_required('normal:add', 'system:add')
 def save_comment():
     try:
         data = ArticleCommentFormSchema().load(request.json)
@@ -27,6 +28,7 @@ def save_comment():
 
 @article_comment_bp.route('/<string:comment_id>/delete', methods=['DELETE'])
 @token_required
+@permission_required('normal:delete', 'system:delete')
 def delete_comment(comment_id):
     result, error = ArticleCommentService.delete_comment(comment_id)
 
@@ -38,6 +40,7 @@ def delete_comment(comment_id):
 
 @article_comment_bp.route('/<string:comment_id>/form', methods=['GET'])
 @token_required
+@permission_required('normal:update', 'system:update')
 def get_comment_form(comment_id):
     result, error = ArticleCommentService.get_comment_vo(comment_id)
 
@@ -48,6 +51,8 @@ def get_comment_form(comment_id):
 
 
 @article_comment_bp.route('/page', methods=['POST'])
+@token_required
+@permission_required('normal:page', 'system:page')
 def page_comment():
     try:
         data = ArticleCommentPageQuerySchema().load(request.json)
@@ -63,6 +68,7 @@ def page_comment():
 
 
 @article_comment_bp.route('/article/<string:article_id>/tree', methods=['GET'])
+@token_required
 def get_comment_tree(article_id):
     result, error = ArticleCommentService.get_comment_tree(article_id)
 

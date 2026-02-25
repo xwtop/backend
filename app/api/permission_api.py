@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from marshmallow import ValidationError
 
 from app.common.Results import Result, PageResult
-from app.middleware.auth import token_required
+from app.middleware.auth import token_required, permission_required
 from app.schemas import SysPermissionFormSchema, SysPermissionPageQuerySchema
 from app.services.sys_permission_service import SysPermissionService
 
@@ -11,6 +11,7 @@ permission_bp = Blueprint('permission', __name__)
 
 @permission_bp.route('/tree', methods=['GET'])
 @token_required
+@permission_required('system:get')
 def get_permission_tree():
     result, error = SysPermissionService.get_permission_tree()
 
@@ -22,6 +23,7 @@ def get_permission_tree():
 
 @permission_bp.route('/add', methods=['POST'])
 @token_required
+@permission_required('system:add')
 def save_sys_permission():
     try:
         data = SysPermissionFormSchema().load(request.json)
@@ -38,6 +40,7 @@ def save_sys_permission():
 
 @permission_bp.route('/<string:permission_id>/update', methods=['PUT'])
 @token_required
+@permission_required('system:update')
 def update_sys_permission(permission_id):
     # 更新权限接口：修改指定权限信息
 
@@ -56,6 +59,7 @@ def update_sys_permission(permission_id):
 
 @permission_bp.route('/<path:ids>/delete', methods=['DELETE'])
 @token_required
+@permission_required('system:delete')
 def delete_sys_permission(ids):
     # 删除权限接口：逻辑删除指定权限
 
@@ -69,6 +73,7 @@ def delete_sys_permission(ids):
 
 @permission_bp.route('/<string:permission_id>/form', methods=['GET'])
 @token_required
+@permission_required('system:get')
 def get_sys_permission_form(permission_id):
     # 获取权限详情接口：根据ID获取权限详细信息
 
@@ -82,6 +87,7 @@ def get_sys_permission_form(permission_id):
 
 @permission_bp.route('/page', methods=['POST'])
 @token_required
+@permission_required('system:page')
 def page_sys_permission():
     try:
         data = SysPermissionPageQuerySchema().load(request.json)
@@ -99,6 +105,7 @@ def page_sys_permission():
 
 @permission_bp.route('/list', methods=['GET'])
 @token_required
+@permission_required('system:list')
 def list_all_permissions():
     # 获取所有未删除的权限列表
     result, error = SysPermissionService.list_all_permissions()
