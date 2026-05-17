@@ -40,6 +40,20 @@ class ArticleLikeService:
         return bool(like), None
 
     @staticmethod
+    def batch_check_like(article_ids, user_id):
+        if not article_ids:
+            return {}, None
+        
+        likes = db.session.query(ContentArticleLike).filter(
+            ContentArticleLike.article_id.in_(article_ids),
+            ContentArticleLike.user_id == user_id,
+            ContentArticleLike.deleted == 0
+        ).all()
+
+        result = {like.article_id: True for like in likes}
+        return result, None
+
+    @staticmethod
     def get_article_likes(article_id, page=1, page_size=10):
         query = db.session.query(ContentArticleLike).filter_by(
             article_id=article_id, deleted=0

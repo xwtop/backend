@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.models import SysUser
+from app.models import SysUser, SysRole, SysUserRole
 from app.common.utils.jwt_utils import generate_token
 from app.common.utils.password_utils import hash_password, verify_password
 
@@ -27,19 +27,15 @@ class AuthService:
             'accessToken': token,
             'userId': user.id,
             'realName': user.real_name,
-            'role': [role.code for role in roles]
+            'role': [role.code for role in roles],
+            'roleName': [role.name for role in roles]
         }, None
 
     @staticmethod
-    def register(username, password, real_name, email, email_code):
-        # 用户注册：创建新用户并分配默认角色
+    def register(username, password, real_name):
         existing_user = db.session.query(SysUser).filter_by(username=username, deleted=0).first()
         if existing_user:
             return False, '学号已存在'
-
-        existing_email = db.session.query(SysUser).filter_by(email=email, deleted=0).first()
-        if existing_email:
-            return False, '邮箱已被注册'
 
         hashed_password = hash_password(password)
 
@@ -47,10 +43,19 @@ class AuthService:
             username=username,
             password=hashed_password,
             real_name=real_name,
-            email=email,
             status=1
         )
         db.session.add(user)
+        db.session.flush()
+
+        student_role = db.session.query(SysRole).filter_by(code='STUDENT', deleted=0).first()
+        if student_role:
+            user_role = SysUserRole(
+                user_id=user.id,
+                role_id=student_role.id
+            )
+            db.session.add(user_role)
+
         db.session.commit()
         return True, None
 

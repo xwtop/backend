@@ -38,9 +38,7 @@ def register():
     result, error = AuthService.register(
         data['username'],
         data['password'],
-        data['real_name'],
-        data['email'],
-        data['email_code']
+        data['real_name']
     )
 
     if error:

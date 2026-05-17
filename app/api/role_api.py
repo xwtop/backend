@@ -95,7 +95,7 @@ def page_sys_role():
 
 @role_bp.route('/list', methods=['GET'])
 @token_required
-@permission_required('system:list')
+@permission_required('normal:list', 'system:list')
 def list_all_roles():
     result, error = SysRoleService.list_all_roles()
 

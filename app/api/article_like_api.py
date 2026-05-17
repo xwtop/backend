@@ -44,6 +44,23 @@ def check_like():
     return Result.success(result)
 
 
+@article_like_bp.route('/batch-check', methods=['POST'])
+@token_required
+def batch_check_like():
+    article_ids = request.json.get('article_ids', [])
+    user_id = request.json.get('user_id')
+
+    if not article_ids:
+        return Result.success({})
+
+    result, error = ArticleLikeService.batch_check_like(article_ids, user_id)
+
+    if error:
+        return Result.server_error(error)
+
+    return Result.success(result)
+
+
 @article_like_bp.route('/article/<string:article_id>', methods=['GET'])
 @token_required
 def get_article_likes(article_id):
